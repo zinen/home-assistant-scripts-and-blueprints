@@ -3,10 +3,15 @@ Smartkontakten integration HA
 Used to make ABB lookalike 4 button device by Smartkontakten available in home assistant.
 
 1: Buy a 4 button solution from https://www.smartkontakten.dk/
+
 2: Integrate it with Philips Hue Bridge
+
 3: Setup hue integration in home assistant
+
 4: Import this blueprint
+
 5: Inside home assistant look for automatons and make a new one from this blue print
+
 6: Define actions
 
 [![Import blueprint to My Home Assistant](https://raw.githubusercontent.com/zinen/home-assistant-scripts-and-blueprints/refs/heads/main/img/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fzinen%2Fhome-assistant-scripts-and-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmartkontakten%2Fabb_hue_button_decoder_with_actions.yaml)
