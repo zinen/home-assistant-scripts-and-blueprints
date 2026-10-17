@@ -1,4 +1,4 @@
-Smartkontakten integration HA
+# Smartkontakten integration HA using blueprints
 
 Used to make ABB lookalike 4 button device by Smartkontakten available in home assistant.
 
