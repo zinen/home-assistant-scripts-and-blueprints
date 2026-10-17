@@ -1,0 +1,194 @@
+blueprint:
+  name: ABB Hue Switch - 4 Button Actions
+  description: >
+    Decodes an ABB/Hue 4-button switch and runs your own actions for
+    short_press, long_press_start and long_press_stop on each button.
+    Double press is not decoded due to instability. Repo: https://github.com/zinen/home-assistant-scripts-and-blueprints
+  domain: automation
+  input:
+    top_left:
+      name: Top-left button (1)
+      icon: mdi:arrow-top-left
+      collapsed: true
+      input:
+        top_left_entity:
+          name: Event entity
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - integration: hue
+                  domain: event
+                  device_class: button
+        top_left_short_press:
+          name: Short press
+          default: []
+          selector:
+            action:
+        top_left_long_press_start:
+          name: Long press start
+          default: []
+          selector:
+            action:
+        top_left_long_press_stop:
+          name: Long press stop
+          default: []
+          selector:
+            action:
+
+    top_right:
+      name: Top-right button (3)
+      icon: mdi:arrow-top-right
+      collapsed: true
+      input:
+        top_right_entity:
+          name: Event entity
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - integration: hue
+                  domain: event
+                  device_class: button
+        top_right_short_press:
+          name: Short press
+          default: []
+          selector:
+            action:
+        top_right_long_press_start:
+          name: Long press start
+          default: []
+          selector:
+            action:
+        top_right_long_press_stop:
+          name: Long press stop
+          default: []
+          selector:
+            action:
+
+    bottom_left:
+      name: Bottom-left button (2)
+      icon: mdi:arrow-bottom-left
+      collapsed: true
+      input:
+        bottom_left_entity:
+          name: Event entity
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - integration: hue
+                  domain: event
+                  device_class: button
+        bottom_left_short_press:
+          name: Short press
+          default: []
+          selector:
+            action:
+        bottom_left_long_press_start:
+          name: Long press start
+          default: []
+          selector:
+            action:
+        bottom_left_long_press_stop:
+          name: Long press stop
+          default: []
+          selector:
+            action:
+
+    bottom_right:
+      name: Bottom-right button (4)
+      icon: mdi:arrow-bottom-right
+      collapsed: true
+      input:
+        bottom_right_entity:
+          name: Event entity
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - integration: hue
+                  domain: event
+                  device_class: button
+        bottom_right_short_press:
+          name: Short press
+          default: []
+          selector:
+            action:
+        bottom_right_long_press_start:
+          name: Long press start
+          default: []
+          selector:
+            action:
+        bottom_right_long_press_stop:
+          name: Long press stop
+          default: []
+          selector:
+            action:
+
+mode: parallel
+max: 20
+
+triggers:
+  - trigger: state
+    entity_id: !input top_left_entity
+    id: top_left
+  - trigger: state
+    entity_id: !input bottom_left_entity
+    id: bottom_left
+  - trigger: state
+    entity_id: !input top_right_entity
+    id: top_right
+  - trigger: state
+    entity_id: !input bottom_right_entity
+    id: bottom_right
+
+conditions:
+  - condition: template
+    value_template: "{{ trigger.from_state is not none and trigger.to_state is not none }}"
+
+actions:
+  - variables:
+      from_type: "{{ trigger.from_state.attributes.event_type | default('', true) }}"
+      to_type: "{{ trigger.to_state.attributes.event_type | default('', true) }}"
+      gesture: >-
+        {% if to_type == 'short_release' and from_type == 'initial_press' %}short_press
+        {% elif to_type in ['repeat', 'long_press'] and from_type == 'initial_press' %}long_press_start
+        {% elif to_type == 'long_release' and from_type in ['short_release', 'repeat', 'long_press'] %}long_press_stop
+        {% endif %}
+
+  - condition: template
+    value_template: "{{ gesture | trim != '' }}"
+
+  - choose:
+      - conditions: "{{ trigger.id == 'top_left' and gesture | trim == 'short_press' }}"
+        sequence: !input top_left_short_press
+      - conditions: "{{ trigger.id == 'top_left' and gesture | trim == 'long_press_start' }}"
+        sequence: !input top_left_long_press_start
+      - conditions: "{{ trigger.id == 'top_left' and gesture | trim == 'long_press_stop' }}"
+        sequence: !input top_left_long_press_stop
+
+      - conditions: "{{ trigger.id == 'bottom_left' and gesture | trim == 'short_press' }}"
+        sequence: !input bottom_left_short_press
+      - conditions: "{{ trigger.id == 'bottom_left' and gesture | trim == 'long_press_start' }}"
+        sequence: !input bottom_left_long_press_start
+      - conditions: "{{ trigger.id == 'bottom_left' and gesture | trim == 'long_press_stop' }}"
+        sequence: !input bottom_left_long_press_stop
+
+      - conditions: "{{ trigger.id == 'top_right' and gesture | trim == 'short_press' }}"
+        sequence: !input top_right_short_press
+      - conditions: "{{ trigger.id == 'top_right' and gesture | trim == 'long_press_start' }}"
+        sequence: !input top_right_long_press_start
+      - conditions: "{{ trigger.id == 'top_right' and gesture | trim == 'long_press_stop' }}"
+        sequence: !input top_right_long_press_stop
+
+      - conditions: "{{ trigger.id == 'bottom_right' and gesture | trim == 'short_press' }}"
+        sequence: !input bottom_right_short_press
+      - conditions: "{{ trigger.id == 'bottom_right' and gesture | trim == 'long_press_start' }}"
+        sequence: !input bottom_right_long_press_start
+      - conditions: "{{ trigger.id == 'bottom_right' and gesture | trim == 'long_press_stop' }}"
+        sequence: !input bottom_right_long_press_stop
