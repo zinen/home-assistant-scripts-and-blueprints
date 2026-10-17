@@ -1,7 +1,7 @@
 alias: Telegram confirm prompt
 description: >-
   Sends a Telegram message with 1-3 inline buttons, waits for a press (or
-  timeout), updates the prompt message with the outcome, and returns the answer.
+  timeout), updates the prompt message with the outcome, and returns the answer. https://github.com/zinen/home-assistant-scripts-and-blueprints/tree/main/blueprints/script/telegram
 icon: mdi:chat-question
 mode: parallel
 max: 10
