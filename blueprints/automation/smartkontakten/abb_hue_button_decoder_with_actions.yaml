@@ -3,7 +3,7 @@ blueprint:
   description: >
     Decodes an ABB/Hue 4-button switch and runs your own actions for
     short_press, long_press_start and long_press_stop on each button.
-    Double press is not decoded due to instability. Repo: https://github.com/zinen/home-assistant-scripts-and-blueprints
+    Double press is not decoded due to instability. Repo: https://github.com/zinen/home-assistant-scripts-and-blueprints/tree/main/blueprints/automation/smartkontakten
   domain: automation
   input:
     top_left:
