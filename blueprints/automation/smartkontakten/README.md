@@ -33,8 +33,11 @@ For a one click dimmer solution you need to use a helper for know that a dimmer 
 
 ## Listen for events:
 https://my.home-assistant.io/redirect/tools_events/
+
 Subscribe to event: state_changed
+
 Filter old devices: event.friends_of_hue_switch_
+
 Filter new devices: event.works_with_hue_switch_
 
 ### Basic event output:
