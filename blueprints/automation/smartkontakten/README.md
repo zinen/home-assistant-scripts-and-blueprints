@@ -25,8 +25,8 @@ Map each button you want to listen to in the correct order as you see them. Hue 
 There are three actions placeholders. Short press, long press and long press release.
 
 For a one click dimmer solution you need to use a helper for know that a dimmer action is going on. I use it like this:
-- Short press, look for helper to already be defined
-    - (First parallel run will get here) If no helper, then start a repeat action until helper is false(This will keep going) Make sure to make a catch to prevent run-forever-loop
+- Short press, look for helper to already be defined. Helper can be a true/false statement of 'is running'
+    - (First parallel run will get here) If helper is false, then set to true and start a repeat action until helper is false(This will keep going) Make sure to make a catch to prevent run-forever-loop - the catch should make the helper false again
     - (Second parallel run will get here) If helper is true then mark the it as false
 
 # Debug 
